@@ -191,3 +191,13 @@ class TestAccountService(TestCase):
         """It should not allow illegal method call"""
         res = self.client.delete(BASE_URL)
         self.assertEqual(res.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    def test_list_accounts(self):
+        """It should list all accounts"""
+        self._create_accounts(5)
+        res = self.client.get(BASE_URL)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        data = res.get_json()
+        self.assertEqual(len(data), 5)
+        
