@@ -164,3 +164,30 @@ class TestAccountService(TestCase):
             content_type="application/json"
         )
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_update_account(self):
+        """It should update an account when correct information provided"""
+        account = AccountFactory()
+        post_res = self.client.post(
+            BASE_URL,
+            json=account.serialize(),
+            content_type="application/json"            
+        )
+        self.assertEqual(post_res.status_code, status.HTTP_201_CREATED)
+        new_account = post_res.get_json()
+        new_account["name"] = "John"
+
+        put_res = self.client.put(
+            f"{BASE_URL}/{new_account['id']}",
+            json=new_account,
+            content_type="application/json"
+        )
+
+        updated_account = put_res.get_json()
+        self.assertEqual(put_res.status_code, status.HTTP_200_OK)
+        self.assertEqual(updated_account["name"], "John")
+
+    def test_method_not_allowed(self):
+        """It should not allow illegal method call"""
+        res = self.client.delete(BASE_URL)
+        self.assertEqual(res.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
