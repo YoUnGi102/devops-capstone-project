@@ -61,6 +61,7 @@ def create_accounts():
 # LIST ALL ACCOUNTS
 ######################################################################
 
+
 @app.route('/accounts', methods=["GET"])
 def list_accounts():
     """This endpoint returns list of all accounts"""
@@ -75,6 +76,7 @@ def list_accounts():
 # READ AN ACCOUNT
 ######################################################################
 
+
 @app.route("/accounts/<id>", methods=["GET"])
 def read_account(id):
     """This endpoint returns an account by ID"""
@@ -87,6 +89,7 @@ def read_account(id):
 ######################################################################
 # UPDATE AN EXISTING ACCOUNT
 ######################################################################
+
 
 @app.route("/accounts/<id>", methods=["PUT"])
 def update_account(id):
@@ -104,11 +107,11 @@ def update_account(id):
 # DELETE AN ACCOUNT
 ######################################################################
 
+
 @app.route("/accounts/<id>", methods=["DELETE"])
 def delete_account(id):
     """This endpoint returns an account by ID"""
     app.logger.info("Request to delete an Account with id: %s", id)
-    
     account = Account.find(id)
     if account:
         account.delete()
